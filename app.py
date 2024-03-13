@@ -114,7 +114,7 @@ def make_graph():
     remove_ker = request.form['remove_ker']
 
     rfile_list = []
-    for filename in rfiles:
+    for filename in xlsx_files:
         if ver == "PD13":
             df = pd.read_excel(filename, 'Pre_Q', index_col=None)
             df = df[['GeneName', 'Sequence', 'Modifications', 'Charge', 'Precursor Area', 'RT [min]']]
