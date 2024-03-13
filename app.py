@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, send_file, session
+from PepTag_MSapp import app
+from flask import render_template, request, redirect, url_for, send_file, session
 import os
 import pandas as pd
 import glob2 as glob
@@ -8,7 +9,6 @@ from io import BytesIO
 import shutil
 import secrets
 
-app = Flask(__name__)
 # ユーザー情報
 users = {
     'Proteome': {'username': 'Proteome', 'password': 'Proteome'},
