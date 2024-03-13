@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>PepTag MSapp</title>
+    </head>
+    <body>
+        <h1>MS測定結果の集計</h1>
+        <fieldset>
+        <legend><h2>①ファイルのアップロード</h2></legend>
+            <form method="POST" action="/upload" enctype="multipart/form-data">
+                    <label for="file">アップロードするファイルの選択：</label>
+                    <input type="file" name="file" multiple>
+            <p>
+                <button type="submit">アップロード</button>
+            </p>
+            </form>
+        <p>
+        <table cellspacing="0" cellpadding="0" frame="hsides">
+            <tr>
+                <th>アップロードしたファイル</th>
+            </tr>
+            {% for file in xlsx_files %}
+                <tr>
+                    <td>{{ file }}</a></td>
+                    <td><a href="/delete/{{ file }}">削除</a></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td>データがありません</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a href="/delete_all/">一括削除</a>
+        </p>
+        </fieldset>
+
+        <p>
+        <fieldset>
+        <legend><h2>②グラフの作成</h2></legend>
+        <form action="/graph/" method="POST">
+            <div>
+                <lablel>1. グラフのタイトル:</lablel>
+                    <input type="text" name="title" placeholder="英数字 ～18文字が目安">
+            </div>
+            <div>
+                <label>2. Proteome Discovererのバージョン:</label>
+                    <input type="radio" name="ver" id="ver1" value="PD13" checked />
+                        <label for="ver1">PD13</label>
+                    <input type="radio" name="ver" id="ver2" value="PD22" />
+                        <label for="ver2">PD22</label>
+            </div>
+            <div>
+                <label for="intens">3. 縦軸のオーダー:</label>
+                <select name="intens" id="intens">
+                    <option value="10000">10000</option>
+                    <option value="1000">1000</option>
+                </select>
+            </div>
+            <div>
+                <label>4. ケラチンの除去:</label>
+                    <input type="radio" name="remove_ker" id="remove1" value="yes" />
+                        <label for="remove1">yes</label>
+                    <input type="radio" name="remove_ker" id="remove2" value="no" checked/>
+                        <label for="remove2">no</label>
+            </div>
+            <div>
+                <input type="submit" value="グラフの作成">
+            </div>
+        </form>
+        </fieldset>
+        </p>
+
+        <p>
+        <fieldset>
+            <legend><h2>③ペプチドタグのデータの抽出</h2></legend>
+            <a href="/ratio/">実行</a>
+        </fieldset>
+        </p>
+        <a href="/readme">概要</a>
+        <a href="/logout">ログアウト</a>
+    </body>
+</html>
