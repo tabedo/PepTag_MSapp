@@ -1,2 +1,8 @@
 Flask
 Gunicorn
+gunicorn==19.9.0
+pandas
+glob2
+matplotlib
+shutil
+secrets
