@@ -1,4 +1,3 @@
-from PepTag_MSapp import app
 from flask import Flask, render_template, request, redirect, url_for, send_file, session
 import os
 import pandas as pd
@@ -8,6 +7,8 @@ import pybase64
 from io import BytesIO
 import shutil
 import secrets
+
+app = Flask(__name__)
 
 # ユーザー情報
 users = {
