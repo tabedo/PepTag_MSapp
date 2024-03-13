@@ -2,6 +2,7 @@ Flask
 Gunicorn
 gunicorn==19.9.0
 pandas
+pandas==2.0.3
 glob2
 matplotlib
-secrets
+matplotlib==3.7.5
