@@ -3,3 +3,4 @@ gunicorn==19.9.0
 pandas==2.0.3
 glob2
 matplotlib==3.7.5
+pybase64
