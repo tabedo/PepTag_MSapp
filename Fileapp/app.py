@@ -49,7 +49,7 @@ def logout():
 @app.route('/MSapp')
 def MSapp():
     if 'username' in session:
-        xlsx_files = [file for file in os.listdir('Fileapp/files') if file.endswith('.xlsx')]
+        xlsx_files = [file for file in os.listdir('files') if file.endswith('.xlsx')]
         return render_template('MSapp.html', xlsx_files=xlsx_files)
     else:
         return redirect(url_for('login'))
@@ -60,7 +60,7 @@ def upload():
     files = request.files.getlist('file')
     for i, file in enumerate(files):
         file_name = file.filename
-        file_path = os.path.join('Fileapp/files', file_name)
+        file_path = os.path.join('files', file_name)
         file.save(file_path)
     return redirect(url_for('MSapp'))
 
@@ -90,22 +90,22 @@ def download_ratio_max():
 # ファイルの削除を行う
 @app.route('/delete/<string:file>')
 def delete(file):
-    delete_file_path = os.path.join('Fileapp/files', file)
+    delete_file_path = os.path.join('files', file)
     os.remove(delete_file_path)
     return redirect(url_for('MSapp'))
 
 #ファイルの一括削除
 @app.route('/delete_all/')
 def del_all():
-    shutil.rmtree('Fileapp/files/')
-    os.mkdir('Fileapp/files')
+    shutil.rmtree('files/')
+    os.mkdir('files')
     return redirect(url_for('MSapp'))
 
 
 # グラフ作成を行う
 @app.route('/graph/', methods=['POST'])
 def make_graph():
-    path = "Fileapp/files/"
+    path = "files"
     rfiles = glob.glob(path + "*.xlsx")
     title = request.form['title']
     ver = request.form['ver']
@@ -137,7 +137,7 @@ def make_graph():
         df_ave = df.groupby(['GeneName', 'Annotated Sequence', 'Modifications', 'Charge'], as_index=False).mean()
 
 
-    df_ave.to_excel("Fileapp/result/YYMMDD_sample_XX-XX_ave.xlsx")
+    df_ave.to_excel("result/YYMMDD_sample_XX-XX_ave.xlsx")
 
     tag_df = df_ave[df_ave['GeneName'].str.match("^\w+_PepTag$", na=False)]
 
@@ -187,7 +187,7 @@ def make_graph():
     ax.spines['right'].set_linewidth(2)
     ax.spines['left'].set_linewidth(2)
     plt.tight_layout()
-    fig.savefig("Fileapp/result/YYMMDD_sample_XX-XX.png")
+    fig.savefig("result/YYMMDD_sample_XX-XX.png")
 
     buf = BytesIO()
     fig.savefig(buf, format='png')
@@ -200,7 +200,7 @@ def make_graph():
 
 @app.route('/ratio/')
 def ratio():
-    path = "Fileapp/files/"
+    path = "files"
     rfiles = glob.glob(path + "*.xlsx")
 
     file_list = []
@@ -218,8 +218,8 @@ def ratio():
     tag_df = df[df['Charge'] == 2]
     tag_df = tag_df.drop_duplicates(subset='GeneName', keep='first')
 
-    df.to_excel("Fileapp/result/YYMMDD_sample_XX-XX_ratio_all.xlsx")
-    tag_df.to_excel("Fileapp/result/YYMMDD_sample_XX-XX_ratio_max.xlsx")
+    df.to_excel("result/YYMMDD_sample_XX-XX_ratio_all.xlsx")
+    tag_df.to_excel("result/YYMMDD_sample_XX-XX_ratio_max.xlsx")
     return render_template(
         'ratio.html', table=(df.to_html(classes='mystyle'))
     )
